@@ -16,3 +16,20 @@ resource "aws_iam_policy_attachment" "tf_pipeline_role_policy_attachment" {
   roles      = [aws_iam_role.tf_pipeline_role.name]
   policy_arn = aws_iam_policy.tf_pipeline_role_policy.arn
 }
+
+resource "aws_iam_user" "tf_pipeline_user" {
+  name = "tf-pipeline-user"
+}
+
+resource "aws_iam_access_key" "tf_pipeline_user_key" {
+  user    = aws_iam_user.tf_pipeline_user.name
+}
+
+output "key_id" {
+  value = aws_iam_access_key.tf_pipeline_user_key.id
+}
+
+output "secret" {
+  sensitive = true
+  value = aws_iam_access_key.tf_pipeline_user_key.secret
+}

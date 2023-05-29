@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "tf_pipeline_role_assume_policy" {
     ]
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = [aws_iam_user.tf_pipeline_user.arn]
     }
   }
 }
