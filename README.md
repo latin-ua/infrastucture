@@ -4,7 +4,7 @@ This repository contains the entire project IaC configuration in Terraform. Each
 represents infrastructure for every specific component of the project. Currently the following
 modules are implemented:
 
-* common &mdash Common infrastructure configuration. The module configures assers for the
+* common &mdash; Common infrastructure configuration. The module configures assers for the
   pipeline and the common runtime.
 
 ## Testing changes localy
