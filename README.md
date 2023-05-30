@@ -4,7 +4,7 @@ This repository contains the entire project IaC configuration in Terraform. Each
 represents infrastructure for every specific component of the project. Currently the following
 modules are implemented:
 
-* common &mdash; Common infrastructure configuration. The module configures assers for the
+* **common** &mdash; Common infrastructure configuration. The module configures assers for the
   pipeline and the common runtime.
 
 ## Testing changes localy
@@ -43,7 +43,7 @@ $ terraform fmt --recursive
 
 Afterwards make sure that the following naming conventions are followed:
 
-* Terraform objects like resources, data sources and outputs are named snake case.
-* AWS resources are named using kebab case.
+* Terraform objects like resources, data sources and outputs are named in snake case.
+* AWS resources are named in kebab case.
 
 All names must be descriptive and use proper English words.
