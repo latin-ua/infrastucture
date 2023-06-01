@@ -22,7 +22,7 @@ resource "aws_iam_user" "tf_pipeline_user" {
 }
 
 resource "aws_iam_access_key" "tf_pipeline_user_key" {
-  user    = aws_iam_user.tf_pipeline_user.name
+  user = aws_iam_user.tf_pipeline_user.name
 }
 
 output "key_id" {
@@ -31,5 +31,5 @@ output "key_id" {
 
 output "secret" {
   sensitive = true
-  value = aws_iam_access_key.tf_pipeline_user_key.secret
+  value     = aws_iam_access_key.tf_pipeline_user_key.secret
 }
