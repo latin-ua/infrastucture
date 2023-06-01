@@ -29,6 +29,8 @@ jobs:
     steps: 
       - name: Checkout source code
         uses: actions/checkout@v2 #checkout робить pull репозиторію та гілки, в якому запущений. Таким чином, ми отримуємо доступ до коду.
+      - name: Assume role
+        run: source assume-role.sh
       - name: Tf init
         run: terraform init
       - name: Run tf plan
