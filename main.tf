@@ -8,5 +8,5 @@ output "key_id" {
 
 output "secret" {
   sensitive = true
-  value = module.common_infrastructure.secret
+  value     = module.common_infrastructure.secret
 }
