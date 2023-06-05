@@ -6,6 +6,7 @@ modules are implemented:
 
 * **common** &mdash; Common infrastructure configuration. The module configures assers for the
   pipeline and the common runtime.
+* **eks** &mdash; Configuration of the EKS cluster.
 
 ## Testing changes localy
 
