@@ -1,3 +1,10 @@
+locals {
+  cluster_role_policies = [
+    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+    "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController",
+  ]
+}
+
 resource "aws_iam_role" "eks_cluster_role" {
   name = "eks-cluster-role"
 
@@ -5,7 +12,8 @@ resource "aws_iam_role" "eks_cluster_role" {
 }
 
 resource "aws_iam_policy_attachment" "eks_cluster_role_policy_attachment" {
+  for_each   = toset(local.cluster_role_policies)
   name       = "eks-cluster-role-policy-attachment"
   roles      = [aws_iam_role.eks_cluster_role.name]
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  policy_arn = each.key
 }
