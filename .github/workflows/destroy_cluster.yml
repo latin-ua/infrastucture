@@ -18,7 +18,7 @@ jobs:
         run: |
           source assume-role.sh
           terraform init
-          terraform -auto-approve apply -destroy -target module.eks_cluster.aws_eks_addon.vpc_cni
-          terraform -auto-approve apply -destroy -target module.eks_cluster.aws_eks_addon.coredns
-          terraform -auto-approve apply -destroy -target module.eks_cluster.aws_eks_addon.kube_proxy
-          terraform -auto-approve apply -destroy -target module.eks_cluster.aws_eks_cluster.main_cluster
+          terraform apply auto-approve -destroy -target module.eks_cluster.aws_eks_addon.vpc_cni
+          terraform apply auto-approve -destroy -target module.eks_cluster.aws_eks_addon.coredns
+          terraform apply auto-approve -destroy -target module.eks_cluster.aws_eks_addon.kube_proxy
+          terraform apply auto-approve -destroy -target module.eks_cluster.aws_eks_cluster.main_cluster
