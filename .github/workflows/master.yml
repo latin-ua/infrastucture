@@ -31,7 +31,7 @@ jobs:
         run: |
           source assume-role.sh
           terraform init
-          terraform plan -input=false
+          terraform plan -input=false -out tfplan
       - name: Upload tf plan as artifact
         uses: actions/upload-artifact@v3
         with:
