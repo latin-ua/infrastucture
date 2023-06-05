@@ -1,0 +1,24 @@
+name: destroy cluster
+on: workflow_dispatch
+
+env:
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_DEFAULT_REGION: eu-central-1
+
+jobs: 
+  destroy-control-plane:
+    name: Destroy control plane
+    runs-on: ubuntu-latest
+    container: "ghcr.io/latin-ua/docker_images/terraform_pipeline:latest"
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2 #checkout робить pull репозиторію та гілки, в якому запущений. Таким чином, ми отримуємо доступ до коду.
+      - name: Tf destroy
+        run: |
+          source assume-role.sh
+          terraform init
+          terraform destroy --target module.eks_cluster.aws_eks_addon.vpc_cni
+          terraform destroy --target module.eks_cluster.aws_eks_addon.coredns
+          terraform destroy --target module.eks_cluster.aws_eks_addon.kube_proxy
+          terraform destroy --target module.eks_cluster.aws_eks_cluster.main_cluster
