@@ -42,7 +42,9 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     container: "ghcr.io/latin-ua/docker_images/terraform_pipeline:latest"
-    needs: plan
+    needs:
+      - plan
+      - linting
     steps: 
       - name: Checkout source code
         uses: actions/checkout@v2 #checkout робить pull репозиторію та гілки, в якому запущений. Таким чином, ми отримуємо доступ до коду.
