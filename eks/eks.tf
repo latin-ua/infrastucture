@@ -17,7 +17,7 @@ resource "aws_eks_cluster" "main_cluster" {
     subnet_ids              = local.subnet_ids
   }
 
-  depends_on = aws_iam_policy_attachment.eks_cluster_role_policy_attachment[*]
+  # depends_on = aws_iam_policy_attachment.eks_cluster_role_policy_attachment
 }
 
 resource "aws_eks_addon" "vpc_cni" {
@@ -51,5 +51,5 @@ resource "aws_eks_node_group" "main_node_group" {
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
-  depends_on = aws_iam_policy_attachment.eks_node_group_role_policy_attachment[*]
+  # depends_on = aws_iam_policy_attachment.eks_node_group_role_policy_attachment[*]
 }
