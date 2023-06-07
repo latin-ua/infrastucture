@@ -17,7 +17,10 @@ resource "aws_eks_cluster" "main_cluster" {
     subnet_ids              = local.subnet_ids
   }
 
-  # depends_on = aws_iam_policy_attachment.eks_cluster_role_policy_attachment
+  depends_on = [
+    aws_iam_policy_attachment.eks_cluster_role_policy_attachment["arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"],
+    aws_iam_policy_attachment.eks_cluster_role_policy_attachment["arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"],
+  ]
 }
 
 resource "aws_eks_addon" "vpc_cni" {
@@ -27,6 +30,9 @@ resource "aws_eks_addon" "vpc_cni" {
 resource "aws_eks_addon" "coredns" {
   cluster_name = aws_eks_cluster.main_cluster.name
   addon_name   = "coredns"
+  depends_on = [
+    aws_eks_node_group.main_node_group
+  ]
 }
 resource "aws_eks_addon" "kube_proxy" {
   cluster_name = aws_eks_cluster.main_cluster.name
@@ -51,5 +57,13 @@ resource "aws_eks_node_group" "main_node_group" {
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
-  # depends_on = aws_iam_policy_attachment.eks_node_group_role_policy_attachment[*]
+  depends_on = [
+    aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/AWSWAFReadOnlyAccess"],
+    aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"],
+    aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"],
+    aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"],
+    aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"],
+    aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/AWSWAFReadOnlyAccess"],
+
+  ]
 }
