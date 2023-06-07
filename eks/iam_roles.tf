@@ -37,4 +37,4 @@ resource "aws_iam_policy_attachment" "eks_node_group_role_policy_attachment" {
   name       = "eks-node-group-role-policy-attachment"
   roles      = [aws_iam_role.eks_node_group_role.name]
   policy_arn = each.key
-  }
+}
