@@ -1,9 +1,9 @@
-name: update infrastructure
+name: Main pipeline
 on:
   workflow_dispatch:
   push:
-    branches:
-      - 'master'
+  pull_request:
+    types: [ reopened ]
 
 env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -41,6 +41,7 @@ jobs:
 
   apply:
     name: Terraform Apply
+    if: github.ref_name == 'master'
     runs-on: ubuntu-latest
     container: "ghcr.io/latin-ua/docker_images/terraform_pipeline:latest"
     needs:
