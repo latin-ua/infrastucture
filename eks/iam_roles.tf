@@ -38,3 +38,15 @@ resource "aws_iam_policy_attachment" "eks_node_group_role_policy_attachment" {
   roles      = [aws_iam_role.eks_node_group_role.name]
   policy_arn = each.key
 }
+
+resource "aws_iam_policy_attachment" "alb_ingress_controller_policy_attachment" {
+  name       = "alb-ingress-controller-policy-attachment"
+  roles      = [aws_iam_role.eks_node_group_role.name]
+  policy_arn = aws_iam_policy.alb_ingress_controller_iam_policy.arn
+}
+
+resource "aws_iam_policy_attachment" "aws_ingress_controller_policy_attachment" {
+  name       = "aws-ingress-controller-policy-attachment"
+  roles      = [aws_iam_role.eks_node_group_role.name]
+  policy_arn = aws_iam_policy.alb_ingress_controller_iam_policy.arn
+}
