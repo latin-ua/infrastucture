@@ -67,6 +67,7 @@ resource "aws_eks_node_group" "main_node_group" {
     aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"],
     aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"],
     aws_iam_policy_attachment.eks_node_group_role_policy_attachment["arn:aws:iam::aws:policy/AWSWAFReadOnlyAccess"],
-
+    aws_iam_policy_attachment.alb_ingress_controller_policy_attachment,
+    aws_iam_policy_attachment.aws_ingress_controller_policy_attachment,
   ]
 }
