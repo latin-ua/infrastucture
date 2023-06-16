@@ -1,6 +1,6 @@
 variable "notification_email" {
   type    = string
-  default = "metiletan@gmail.com"
+  default = "romcheg.prihod@gmail.com"
 }
 
 variable "budget_amount" {
