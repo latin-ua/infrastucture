@@ -15,7 +15,7 @@ module "back_end" {
 module "front_end" {
   source                = "./front_end"
   front_end_lb_dns_name = var.front_end_lb_dns_name
-  back_end_lb_zone_id  = var.back_end_lb_zone_id
+  # back_end_lb_zone_id  = var.back_end_lb_zone_id
 }
 
 output "key_id" {
