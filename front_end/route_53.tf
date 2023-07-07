@@ -12,7 +12,7 @@ resource "aws_route53_record" "front_end" {
 
   alias {
     name                   = var.front_end_lb_dns_name
-    zone_id                = var.front_end_lb_zone_id
+    zone_id                = var.back_end_lb_zone_id
     evaluate_target_health = true
   }
 }
