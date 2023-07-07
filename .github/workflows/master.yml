@@ -10,9 +10,10 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_DEFAULT_REGION: eu-central-1
   TF_VAR_back_end_lb_zone_id: ${{ vars.BACK_END_LB_ZONE_ID }}
+  TF_VAR_front_end_lb_zone_id: ${{ vars.FRONT_END_LB_ZONE_ID }}
   TF_VAR_back_end_lb_dns_name: ${{ vars.BACK_END_LB_DNS_NAME }} 
   TF_VAR_front_end_lb_dns_name: ${{ vars.FRONT_END_LB_DNS_NAME }}
-  TF_VAR_front_end_lb_zone_id: ${{ vars.FRONT_END_LB_ZONE_ID }}
+  
 
 jobs: 
   linting:
