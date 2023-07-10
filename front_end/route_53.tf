@@ -6,6 +6,7 @@ resource "aws_route53_record" "front_end" {
   zone_id = "Z015263031Q4FAY12JMRL"
   name    = local.domain_name
   type    = "A"
+  ttl     = 60
 
   alias {
     name                   = var.front_end_lb_dns_name
