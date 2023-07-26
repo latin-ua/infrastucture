@@ -20,4 +20,5 @@ resource "aws_route53_record" "front_end_alternative" {
   name    = "latin.com.ua"
   type    = "CNAME"
   records = [local.domain_name]
+  ttl     = 60
 }
