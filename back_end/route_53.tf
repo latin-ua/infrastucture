@@ -1,8 +1,9 @@
 locals {
-  domain_name = "api.latin.com.ua"
+  domain_name     = "api.latin.com.ua"
+  public_dns_zone = "latin.com.ua"
 }
 resource "aws_route53_zone" "primary" {
-  name = local.domain_name
+  name = local.public_dns_zone
 }
 
 resource "aws_route53_record" "back_end" {
