@@ -1,6 +1,5 @@
 resource "aws_acm_certificate" "front_end_lb_certificate" {
   domain_name               = aws_route53_record.front_end.fqdn
-  subject_alternative_names = [aws_route53_record.front_end_alternative.fqdn]
   validation_method         = "DNS"
 
   lifecycle {
