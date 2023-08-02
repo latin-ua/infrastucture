@@ -1,6 +1,6 @@
 resource "aws_acm_certificate" "front_end_lb_certificate" {
-  domain_name               = aws_route53_record.front_end.fqdn
-  validation_method         = "DNS"
+  domain_name       = aws_route53_record.front_end.fqdn
+  validation_method = "DNS"
 
   lifecycle {
     create_before_destroy = true
