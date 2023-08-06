@@ -25,10 +25,12 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
 
   }
 
+  price_class = "PriceClass_100"
+
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations        = ["US", "CA", "GB", "DE"]
+      restriction_type = "blacklist"
+      locations        = ["RU"]
     }
   }
 
