@@ -17,9 +17,12 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   # AWS Managed Caching Policy (CachingDisabled)
   default_cache_behavior {
     # Using the CachingDisabled managed policy ID:
-    cache_policy_id  = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "frontend"
+    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
+    cached_methods         = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id       = "frontend"
+    viewer_protocol_policy = "redirect-to-https"
+
   }
 
   restrictions {
