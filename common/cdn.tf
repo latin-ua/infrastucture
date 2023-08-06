@@ -4,7 +4,7 @@
 
 resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   origin {
-    domain_name = "frontend.latin.com.ua"
+    domain_name = frontend.latin.com.ua
     origin_id   = "frontend"
 
     # s3_origin_config {
