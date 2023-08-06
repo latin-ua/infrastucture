@@ -1,15 +1,18 @@
 # locals {
 #   s3_origin_id = "myS3Origin"
 # }
+resource "aws_cloudfront_origin_access_identity" "default" {
+  comment = "Some comment"
+}
 
 resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   origin {
     domain_name = "frontend.latin.com.ua"
     origin_id   = "frontend"
 
-    # s3_origin_config {
-    #   origin_access_identity = aws_cloudfront_origin_access_identity.default.cloudfront_access_identity_path
-    # }
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.default.cloudfront_access_identity_path
+    }
   }
   enabled         = true
   is_ipv6_enabled = true
