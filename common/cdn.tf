@@ -77,6 +77,7 @@ resource "aws_acm_certificate" "cdn_certificate" {
   domain_name               = local.primary_domain
   subject_alternative_names = [local.alternative_domain]
   validation_method         = "DNS"
+  provider                  = aws.US
 
   lifecycle {
     create_before_destroy = true
