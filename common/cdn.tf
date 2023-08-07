@@ -1,6 +1,7 @@
 locals {
-  zone_id        = "Z015263031Q4FAY12JMRL"
-  primary_domain = "latin.com.ua"
+  zone_id            = "Z015263031Q4FAY12JMRL"
+  primary_domain     = "latin.com.ua"
+  alternative_domain = "www.${local.primary_domain}"
 }
 
 resource "aws_cloudfront_distribution" "latin_ua_distribution" {
@@ -16,7 +17,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
     }
   }
 
-  aliases = [aws_route53_record.cdn_main.fqdn, aws_route53_record.cdn_alternative.fqdn]
+  aliases = [local.primary_domain, local.alternative_domain]
 
   enabled         = true
   is_ipv6_enabled = true
@@ -63,7 +64,7 @@ resource "aws_route53_record" "cdn_main" {
 
 resource "aws_route53_record" "cdn_alternative" {
   zone_id = local.zone_id
-  name    = "www.${local.primary_domain}"
+  name    = local.alternative_domain
   type    = "CNAME"
   ttl     = 3600
   records = [aws_route53_record.cdn_main.fqdn]
