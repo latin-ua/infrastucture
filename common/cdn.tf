@@ -5,7 +5,10 @@ locals {
 }
 
 resource "aws_cloudfront_distribution" "latin_ua_distribution" {
-  depends_on = [aws_acm_certificate_validation.cdn_certificate_validation]
+  depends_on = [
+    aws_route53_record.domain_validation["latin.com.ua"],
+    aws_route53_record.domain_validation["www.latin.com.ua"],
+  ]
   origin {
     domain_name = "frontend.${local.primary_domain}"
     origin_id   = "frontend"
@@ -97,13 +100,4 @@ resource "aws_route53_record" "domain_validation" {
   type    = each.value.type
   records = [each.value.record]
   ttl     = 60
-}
-
-resource "aws_acm_certificate_validation" "cdn_certificate_validation" {
-  depends_on = [
-    aws_route53_record.domain_validation["latin.com.ua"],
-    aws_route53_record.domain_validation["www.latin.com.ua"],
-  ]
-  certificate_arn         = aws_acm_certificate.cdn_certificate.arn
-  validation_record_fqdns = [local.primary_domain, local.alternative_domain]
 }
