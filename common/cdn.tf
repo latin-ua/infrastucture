@@ -4,74 +4,77 @@ locals {
   alternative_domain = "www.${local.primary_domain}"
 }
 
-resource "aws_cloudfront_distribution" "latin_ua_distribution" {
-  depends_on = [aws_acm_certificate_validation.cdn_certificate_validation]
-  origin {
-    domain_name = "frontend.${local.primary_domain}"
-    origin_id   = "frontend"
+#resource "aws_cloudfront_distribution" "latin_ua_distribution" {
+#  depends_on = [
+#    aws_route53_record.domain_validation["latin.com.ua"],
+#    aws_route53_record.domain_validation["www.latin.com.ua"],
+#  ]
+#  origin {
+#    domain_name = "frontend.${local.primary_domain}"
+#    origin_id   = "frontend"
+#
+#    custom_origin_config {
+#      http_port              = 80
+#      https_port             = 443
+#      origin_protocol_policy = "https-only"
+#      origin_ssl_protocols   = ["TLSv1.2"]
+#    }
+#  }
+#
+#  aliases = [local.primary_domain, local.alternative_domain]
+#
+#  enabled         = true
+#  is_ipv6_enabled = true
+#
+#  # AWS Managed Caching Policy (CachingDisabled)
+#  default_cache_behavior {
+#    # Using the CachingDisabled managed policy ID:
+#    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+#    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
+#    cached_methods           = ["GET", "HEAD", "OPTIONS"]
+#    target_origin_id         = "frontend"
+#    viewer_protocol_policy   = "redirect-to-https"
+#    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
+#
+#  }
+#
+#  price_class = "PriceClass_100"
+#
+#  restrictions {
+#    geo_restriction {
+#      restriction_type = "blacklist"
+#      locations        = ["RU"]
+#    }
+#  }
+#
+#  viewer_certificate {
+#    cloudfront_default_certificate = false
+#    acm_certificate_arn            = aws_acm_certificate.cdn_certificate.arn
+#    ssl_support_method             = "sni-only"
+#  }
+#
+#}
 
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "https-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
-
-  aliases = [local.primary_domain, local.alternative_domain]
-
-  enabled         = true
-  is_ipv6_enabled = true
-
-  # AWS Managed Caching Policy (CachingDisabled)
-  default_cache_behavior {
-    # Using the CachingDisabled managed policy ID:
-    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
-    cached_methods           = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id         = "frontend"
-    viewer_protocol_policy   = "redirect-to-https"
-    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
-
-  }
-
-  price_class = "PriceClass_100"
-
-  restrictions {
-    geo_restriction {
-      restriction_type = "blacklist"
-      locations        = ["RU"]
-    }
-  }
-
-  viewer_certificate {
-    cloudfront_default_certificate = false
-    acm_certificate_arn            = aws_acm_certificate.cdn_certificate.arn
-    ssl_support_method             = "sni-only"
-  }
-
-}
-
-resource "aws_route53_record" "cdn_main" {
-  zone_id = local.zone_id
-  name    = local.primary_domain
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.latin_ua_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.latin_ua_distribution.hosted_zone_id
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "cdn_alternative" {
-  zone_id = local.zone_id
-  name    = local.alternative_domain
-  type    = "CNAME"
-  ttl     = 3600
-  records = [aws_route53_record.cdn_main.fqdn]
-
-}
+#resource "aws_route53_record" "cdn_main" {
+#  zone_id = local.zone_id
+#  name    = local.primary_domain
+#  type    = "A"
+#
+#  alias {
+#    name                   = aws_cloudfront_distribution.latin_ua_distribution.domain_name
+#    zone_id                = aws_cloudfront_distribution.latin_ua_distribution.hosted_zone_id
+#    evaluate_target_health = true
+#  }
+#}
+#
+#resource "aws_route53_record" "cdn_alternative" {
+#  zone_id = local.zone_id
+#  name    = local.alternative_domain
+#  type    = "CNAME"
+#  ttl     = 3600
+#  records = [aws_route53_record.cdn_main.fqdn]
+#
+#}
 
 resource "aws_acm_certificate" "cdn_certificate" {
   domain_name               = local.primary_domain
@@ -92,14 +95,9 @@ resource "aws_route53_record" "domain_validation" {
     }
   }
 
-  zone_id = aws_route53_record.cdn_main.zone_id
+  zone_id = local.zone_id
   name    = each.value.name
   type    = each.value.type
   records = [each.value.record]
   ttl     = 60
-}
-
-resource "aws_acm_certificate_validation" "cdn_certificate_validation" {
-  certificate_arn         = aws_acm_certificate.cdn_certificate.arn
-  validation_record_fqdns = [local.primary_domain, local.alternative_domain]
 }
