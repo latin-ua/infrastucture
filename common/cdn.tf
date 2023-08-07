@@ -72,8 +72,8 @@ resource "aws_route53_record" "cdn_alternative" {
 }
 
 resource "aws_acm_certificate" "cdn_certificate" {
-  domain_name               = aws_route53_record.cdn_main.fqdn
-  subject_alternative_names = [aws_route53_record.cdn_alternative.fqdn]
+  domain_name               = local.primary_domain
+  subject_alternative_names = [local.alternative_domain]
   validation_method         = "DNS"
 
   lifecycle {
