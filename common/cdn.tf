@@ -100,6 +100,10 @@ resource "aws_route53_record" "domain_validation" {
 }
 
 resource "aws_acm_certificate_validation" "cdn_certificate_validation" {
+  depends_on = [
+    aws_route53_record.domain_validation["latin.com.ua"],
+    aws_route53_record.domain_validation["www.latin.com.ua"],
+  ]
   certificate_arn         = aws_acm_certificate.cdn_certificate.arn
   validation_record_fqdns = [local.primary_domain, local.alternative_domain]
 }
