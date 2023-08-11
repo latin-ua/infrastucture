@@ -48,10 +48,13 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   }
   # Cache behavior with precedence 1
   ordered_cache_behavior {
-    path_pattern     = "/api/*"
-    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
-    cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "backend"
+    path_pattern             = "/api/*"
+    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
+    cached_methods           = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id         = "backend"
+    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3"
+
 
     forwarded_values {
       query_string = false
