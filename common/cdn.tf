@@ -49,11 +49,11 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   # Cache behavior with precedence 1
   ordered_cache_behavior {
     path_pattern             = "/api/*"
-    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods          = ["GET", "HEAD", "OPTIONS"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = "backend"
-    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3"
+    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
     viewer_protocol_policy   = "redirect-to-https"
   }
 
