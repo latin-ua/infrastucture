@@ -54,21 +54,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = "backend"
     origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3"
-
-
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
-    compress               = true
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy   = "redirect-to-https"
   }
 
   price_class = "PriceClass_100"
