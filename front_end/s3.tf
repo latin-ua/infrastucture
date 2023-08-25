@@ -25,3 +25,7 @@ resource "aws_s3_bucket_policy" "frontend_policy" {
   bucket = aws_s3_bucket.frontend.id
   policy = data.aws_iam_policy_document.cloudfront_s3_bucket_policy.json
 }
+
+output "frontend_bucket_url" {
+  value = aws_s3_bucket.frontend.bucket_domain_name
+}

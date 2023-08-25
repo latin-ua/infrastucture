@@ -7,7 +7,7 @@ locals {
 resource "aws_cloudfront_distribution" "latin_ua_distribution" {
 
   origin {
-    domain_name              = "frontend-991225504892.s3.eu-central-1.amazonaws.com"
+    domain_name              = "frontend-991225504892.s3.amazonaws.com"
     origin_access_control_id = aws_cloudfront_origin_access_control.frontend.id
     origin_id                = "frontend"
   }
