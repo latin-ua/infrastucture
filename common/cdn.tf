@@ -10,10 +10,6 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
     domain_name              = "frontend-991225504892.s3.eu-central-1.amazonaws.com"
     origin_access_control_id = aws_cloudfront_origin_access_control.frontend.id
     origin_id                = "frontend"
-
-    # s3_origin_config {
-    #   origin_access_identity = aws_cloudfront_origin_access_identity.frontent_access_identity.cloudfront_access_identity_path
-    # }
   }
 
   aliases = [local.primary_domain, local.alternative_domain]
@@ -21,6 +17,13 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
+
+  custom_error_response {
+    error_code         = 403
+    response_code      = 200
+    response_page_path = "/index.html"
+
+  }
 
   # AWS Managed Caching Policy (CachingDisabled)
   default_cache_behavior {
@@ -127,5 +130,3 @@ resource "aws_cloudfront_origin_access_control" "frontend" {
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
 }
-
-# resource "aws_cloudfront_origin_access_identity" "frontent_access_identity" {}
