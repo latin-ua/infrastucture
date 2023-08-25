@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
     origin_id                = "frontend"
 
     s3_origin_config {
-      origin_access_identity = data.aws_cloudfront_origin_access_identity.frontent_access_identity.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.frontent_access_identity.cloudfront_access_identity_path
     }
   }
 
@@ -126,3 +126,5 @@ resource "aws_cloudfront_origin_access_control" "frontend" {
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
 }
+
+resource "aws_cloudfront_origin_access_identity" "frontent_access_identity" {}

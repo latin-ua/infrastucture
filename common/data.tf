@@ -21,7 +21,3 @@ data "aws_iam_policy_document" "tf_pipeline_role_policy" {
     resources = ["*"]
   }
 }
-
-data "aws_cloudfront_origin_access_identity" "frontent_access_identity" {
-  id = "E105UU8V5LGPMZ"
-}
