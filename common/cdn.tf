@@ -18,8 +18,8 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
 
   aliases = [local.primary_domain, local.alternative_domain]
 
-  enabled         = true
-  is_ipv6_enabled = true
+  enabled             = true
+  is_ipv6_enabled     = true
   default_root_object = "index.html"
 
   # AWS Managed Caching Policy (CachingDisabled)
