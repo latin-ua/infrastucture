@@ -27,7 +27,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
     cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods          = ["GET", "HEAD", "OPTIONS"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id         = "frontend-991225504892"
+    target_origin_id         = "frontend"
     viewer_protocol_policy   = "redirect-to-https"
     origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
 
