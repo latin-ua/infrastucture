@@ -7,14 +7,12 @@ locals {
 resource "aws_cloudfront_distribution" "latin_ua_distribution" {
 
   origin {
-    domain_name = "frontend.${local.primary_domain}"
-    origin_id   = "frontend"
+    domain_name              = "frontend-991225504892.s3.eu-central-1.amazonaws.com"
+    origin_access_control_id = aws_cloudfront_origin_access_control.frontend.id
+    origin_id                = "frontend"
 
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "https-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.frontent_access_identity.cloudfront_access_identity_path
     }
   }
 
@@ -29,7 +27,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
     cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods          = ["GET", "HEAD", "OPTIONS"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id         = "frontend"
+    target_origin_id         = "frontend-991225504892"
     viewer_protocol_policy   = "redirect-to-https"
     origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
 
@@ -121,3 +119,12 @@ resource "aws_route53_record" "domain_validation" {
   records = [each.value.record]
   ttl     = 60
 }
+
+resource "aws_cloudfront_origin_access_control" "frontend" {
+  name                              = "frontend-access"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+resource "aws_cloudfront_origin_access_identity" "frontent_access_identity" {}
