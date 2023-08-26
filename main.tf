@@ -26,3 +26,7 @@ output "secret" {
   sensitive = true
   value     = module.common_infrastructure.secret
 }
+
+output "frontend_bucket_url" {
+  value = module.front_end.frontend_bucket_url
+}
