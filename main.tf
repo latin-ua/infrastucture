@@ -13,9 +13,7 @@ module "back_end" {
 }
 
 module "front_end" {
-  source                = "./front_end"
-  front_end_lb_dns_name = var.front_end_lb_dns_name
-  front_end_lb_zone_id  = var.front_end_lb_zone_id
+  source = "./front_end"
 }
 
 output "key_id" {
