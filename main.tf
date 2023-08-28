@@ -13,7 +13,7 @@ module "back_end" {
 }
 
 module "front_end" {
-  source                = "./front_end"
+  source = "./front_end"
 }
 
 output "key_id" {
