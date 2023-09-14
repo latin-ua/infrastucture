@@ -16,6 +16,10 @@ module "front_end" {
   source = "./front_end"
 }
 
+module "back_end_lambda" {
+  source = "./back_end_lambda"
+}
+
 output "key_id" {
   value = module.common_infrastructure.key_id
 }
