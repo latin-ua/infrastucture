@@ -38,6 +38,29 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   }
 
   origin {
+    domain_name = replace(replace(aws_lambda_function_url.lambda_translation_methods_url.function_url, "https://", ""), "/", "")
+    origin_id   = "backend_lambda"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  # Cache behavior with precedence 0
+  ordered_cache_behavior {
+    path_pattern             = "/api/translation-methods"
+    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods           = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id         = "backend"
+    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
+    viewer_protocol_policy   = "redirect-to-https"
+  }
+
+  origin {
     domain_name = "api.${local.primary_domain}"
     origin_id   = "backend"
 
@@ -48,6 +71,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
       origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
+
   # Cache behavior with precedence 1
   ordered_cache_behavior {
     path_pattern             = "/api/*"
