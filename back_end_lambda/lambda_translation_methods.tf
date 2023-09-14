@@ -3,7 +3,7 @@ resource "aws_lambda_function" "lambda_translation_methods" {
   function_name = "lambda-translation-methods"
   role          = aws_iam_role.iam_role_for_lambda.arn
   handler       = "translation_methods.lambda_handler"
-  runtime       = "python3.11"
+  runtime       = "python3.9"
 
 }
 
