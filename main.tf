@@ -1,5 +1,6 @@
 module "common_infrastructure" {
-  source = "./common"
+  source                     = "./common"
+  get_translation_method_url = module.back_end_lambda.get_translation_methods_url
 }
 
 module "eks_cluster" {
@@ -14,6 +15,10 @@ module "back_end" {
 
 module "front_end" {
   source = "./front_end"
+}
+
+module "back_end_lambda" {
+  source = "./back_end_lambda"
 }
 
 output "key_id" {
