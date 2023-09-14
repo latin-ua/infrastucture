@@ -4,6 +4,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "4.67.0"
     }
+
+    archive = {
+      source  = "hashicorp/archive"
+      version = "2.4.0"
+    }
   }
 
   backend "s3" {
@@ -15,4 +20,7 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
+}
+
+provider "archive" {
 }
