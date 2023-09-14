@@ -15,8 +15,8 @@ data "aws_iam_policy_document" "lambda_assume_role" {
 
 data "archive_file" "translation_methods" {
   type        = "zip"
-  source_dir  = "${path.module}/python/"
-  output_path = "${path.module}/python/lambda_translation_methods.zip"
+  source_dir  = abspath("${path.module}/python/")
+  output_path = abspath("${path.module}/python/lambda_translation_methods.zip")
 }
 
 data "aws_iam_policy_document" "lambda_cloud_watch" {
