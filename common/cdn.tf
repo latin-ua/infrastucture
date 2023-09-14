@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   }
 
   origin {
-    domain_name = replace(replace(aws_lambda_function_url.lambda_translation_methods_url.function_url, "https://", ""), "/", "")
+    domain_name = replace(replace(var.get_translation_method_url, "https://", ""), "/", "")
     origin_id   = "backend_lambda"
 
     custom_origin_config {
