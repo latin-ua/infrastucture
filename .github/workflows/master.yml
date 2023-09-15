@@ -41,7 +41,12 @@ jobs:
         with:
           name: tfplan
           path: tfplan
-
+      - name: Upload lambda code as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: translation_methods
+          path: back_end_lambda/python/lambda_translation_methods.zip
+   
   apply:
     name: Terraform Apply
     if: github.ref_name == 'master'
@@ -53,6 +58,11 @@ jobs:
     steps: 
       - name: Checkout source code
         uses: actions/checkout@v2 #checkout робить pull репозиторію та гілки, в якому запущений. Таким чином, ми отримуємо доступ до коду.
+      - name: Download lambda code
+        uses: actions/download-artifact@v3
+        with:
+          name: translation_methods
+          path: back_end_lambda/python/lambda_translation_methods.zip
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
