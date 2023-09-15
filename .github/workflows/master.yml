@@ -69,6 +69,7 @@ jobs:
           name: tfplan # if no 'with' then download all artifacts
       - name: Tf apply
         run: |
+          ls -l back_end_lambda/
           source assume-role.sh
           terraform init
           terraform apply -input=false -lock=true tfplan
