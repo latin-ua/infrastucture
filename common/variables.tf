@@ -11,3 +11,7 @@ variable "budget_amount" {
 variable "get_translation_method_url" {
   type = string
 }
+
+variable "translation_lambda_url" {
+  type = string
+}

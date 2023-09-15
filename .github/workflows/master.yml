@@ -44,8 +44,8 @@ jobs:
       - name: Upload lambda code as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: translation_methods
-          path: back_end_lambda/lambda_translation_methods.zip
+          name: lambda_code
+          path: back_end_lambda/*.zip
    
   apply:
     name: Terraform Apply
@@ -61,7 +61,7 @@ jobs:
       - name: Download lambda code
         uses: actions/download-artifact@v3
         with:
-          name: translation_methods
+          name: lambda_code
           path: back_end_lambda/
       - name: Download a single artifact
         uses: actions/download-artifact@v3
@@ -69,6 +69,7 @@ jobs:
           name: tfplan # if no 'with' then download all artifacts
       - name: Tf apply
         run: |
+          ls -l back_end_lambda/
           source assume-role.sh
           terraform init
           terraform apply -input=false -lock=true tfplan
