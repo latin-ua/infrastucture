@@ -1,7 +1,10 @@
 locals {
-  zone_id            = "Z015263031Q4FAY12JMRL"
-  primary_domain     = "latin.com.ua"
-  alternative_domain = "www.${local.primary_domain}"
+  zone_id                      = "Z015263031Q4FAY12JMRL"
+  primary_domain               = "latin.com.ua"
+  alternative_domain           = "www.${local.primary_domain}"
+  policy_id_caching_disabled   = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+  policy_id_caching_optimized  = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  policy_id_origin_remove_host = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
 }
 
 resource "aws_cloudfront_distribution" "latin_ua_distribution" {
@@ -28,18 +31,18 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   # AWS Managed Caching Policy (CachingDisabled)
   default_cache_behavior {
     # Using the CachingDisabled managed policy ID:
-    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    cache_policy_id          = local.policy_id_caching_optimized
     allowed_methods          = ["GET", "HEAD", "OPTIONS"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = "frontend"
     viewer_protocol_policy   = "redirect-to-https"
-    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
+    origin_request_policy_id = local.policy_id_origin_remove_host
 
   }
 
   origin {
     domain_name = replace(replace(var.get_translation_method_url, "https://", ""), "/", "")
-    origin_id   = "backend_lambda"
+    origin_id   = "get_translation_method_lambda"
 
     custom_origin_config {
       http_port              = 80
@@ -52,11 +55,34 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
   # Cache behavior with precedence 0
   ordered_cache_behavior {
     path_pattern             = "/api/translation-methods"
-    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+    cache_policy_id          = local.policy_id_caching_optimized
     allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id         = "backend_lambda"
-    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
+    target_origin_id         = "get_translation_method_lambda"
+    origin_request_policy_id = local.policy_id_origin_remove_host
+    viewer_protocol_policy   = "redirect-to-https"
+  }
+
+  origin {
+    domain_name = replace(replace(var.translation_lambda_url, "https://", ""), "/", "")
+    origin_id   = "translation_lambda"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
+  # Cache behavior with precedence 1
+  ordered_cache_behavior {
+    path_pattern             = "/api/translate"
+    cache_policy_id          = local.policy_id_caching_disabled
+    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods           = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id         = "translation_lambda"
+    origin_request_policy_id = local.policy_id_origin_remove_host
     viewer_protocol_policy   = "redirect-to-https"
   }
 
@@ -79,7 +105,7 @@ resource "aws_cloudfront_distribution" "latin_ua_distribution" {
     allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = "backend"
-    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac"
+    origin_request_policy_id = local.policy_id_origin_remove_host
     viewer_protocol_policy   = "redirect-to-https"
   }
 
