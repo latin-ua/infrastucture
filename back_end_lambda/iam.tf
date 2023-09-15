@@ -4,7 +4,7 @@ resource "aws_iam_role" "iam_role_for_lambda" {
 }
 
 resource "aws_iam_policy" "lambda_cloud_watch" {
-  name   = "aws-load-balancer-controller-additional-iam-policy"
+  name   = "lambda-cloud-watch"
   policy = data.aws_iam_policy_document.lambda_cloud_watch.json
 }
 
