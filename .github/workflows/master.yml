@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: translation_methods
-          path: back_end_lambda/python/lambda_translation_methods.zip
+          path: back_end_lambda/lambda_translation_methods.zip
    
   apply:
     name: Terraform Apply
@@ -62,7 +62,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: translation_methods
-          path: back_end_lambda/python/
+          path: back_end_lambda/
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
